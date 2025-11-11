@@ -2,7 +2,7 @@
 header('Content-Type: application/json; charset=utf-8');
 
 // กำหนด API Key (เช่น Gemini)
-$geminiKey = "ใส่คีย์ของคุณตรงนี้";
+$geminiKey = "AIzaSyBWV5WataV2uEc4mOc3MJ8h5m8dCuegqMs";
 
 // รับข้อความที่ส่งมาจากเว็บ InfinityFree
 $input = json_decode(file_get_contents("php://input"), true);
@@ -32,3 +32,4 @@ $reply = $result["candidates"][0]["content"]["parts"][0]["text"] ?? "ไม่�
 
 echo json_encode(["reply" => $reply], JSON_UNESCAPED_UNICODE);
 ?>
+
