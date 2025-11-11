@@ -1,20 +1,27 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
 header('Content-Type: application/json; charset=utf-8');
 
-// กำหนด API Key (เช่น Gemini)
 $geminiKey = "AIzaSyBWV5WataV2uEc4mOc3MJ8h5m8dCuegqMs";
 
-// รับข้อความที่ส่งมาจากเว็บ InfinityFree
 $input = json_decode(file_get_contents("php://input"), true);
 $question = trim($input["message"] ?? "");
 
-// เรียก Gemini API
+if (!$question) {
+    echo json_encode(["reply" => "กรุณาพิมพ์คำถามก่อนค่ะ"]);
+    exit;
+}
+
 $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$geminiKey";
 
 $data = [
-    "contents" => [[
-        "parts" => [["text" => $question]]
-    ]]
+    "contents" => [
+        [
+            "parts" => [["text" => $question]]
+        ]
+    ]
 ];
 
 $ch = curl_init($url);
@@ -32,4 +39,3 @@ $reply = $result["candidates"][0]["content"]["parts"][0]["text"] ?? "ไม่�
 
 echo json_encode(["reply" => $reply], JSON_UNESCAPED_UNICODE);
 ?>
-
